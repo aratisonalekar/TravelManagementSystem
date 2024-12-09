@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking and Customers</title>
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .customer-section {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body><h1>Booking and Customer Details</h1>
+    <form id="booking" action="/submitBooking" method="POST">
+        <!-- Booking Details -->
+        <div class="form-group">
+            <label for="pickupLocation">Pickup Location:</label>
+            <input type="text" id="pickupLocation" name="pickupLocation" required>
+        </div>
+        <div class="form-group">
+            <label for="dropLocation">Drop Location:</label>
+            <input type="text" id="dropLocation" name="dropLocation" required>
+        </div>
+        <div class="form-group">
+            <label for="bookingTime">Booking Time:</label>
+            <input type="datetime-local" id="bookingTime" name="bookingTime" required>
+        </div>
+
+        <!-- Customer Details -->
+        <div id="customerList">
+            <div class="customer-section">
+                <h3>Customer 1</h3>
+                <div class="form-group">
+                    <label for="customerName1">Name:</label>
+                    <input type="text" id="customerName1" name="customers[0].name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerEmail1">Email:</label>
+                    <input type="email" id="customerEmail1" name="customers[0].email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone1">Phone Number:</label>
+                    <input type="text" id="customerPhone1" name="customers[0].phoneNo" required>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="addCustomerButton">Add Another Customer</button>
+        <button type="submit">Submit Booking</button>
+    </form>
+
+    <script>
+        let customerCount = 1;
+        const addCustomerButton = document.getElementById("addCustomerButton");
+        const customerList = document.getElementById("customerList");
+
+        addCustomerButton.addEventListener("click", () => {
+            customerCount++;
+            const customerSection = document.createElement("div");
+            customerSection.classList.add("customer-section");
+            customerSection.innerHTML = `
+                <h3>Customer ${customerCount}</h3>
+                <div class="form-group">
+                    <label for="customerName${customerCount}">Name:</label>
+                    <input type="text" id="customerName${customerCount}" name="customers[${customerCount - 1}].name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerEmail${customerCount}">Email:</label>
+                    <input type="email" id="customerEmail${customerCount}" name="customers[${customerCount - 1}].email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone${customerCount}">Phone Number:</label>
+                    <input type="text" id="customerPhone${customerCount}" name="customers[${customerCount - 1}].phoneNo" required>
+                </div>
+            `;
+            customerList.appendChild(customerSection);
+        });
+    </script>
+
+
+</body>
+</html>
